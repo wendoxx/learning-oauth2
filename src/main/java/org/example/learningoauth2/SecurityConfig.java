@@ -16,11 +16,14 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/public").permitAll()
-                        .requestMatchers("/api/private").authenticated()
+                        .requestMatchers("/api/cookie").authenticated()
                         .requestMatchers("/login").permitAll()
                         .requestMatchers("/logout").permitAll()
+                        .requestMatchers("/jwt").authenticated()
+                        .anyRequest().permitAll()
                 )
                 .oauth2Login(Customizer.withDefaults())
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
                 .build();
     }
 }
